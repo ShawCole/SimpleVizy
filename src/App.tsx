@@ -10,6 +10,8 @@ import AudienceDemographics from './components/sections/AudienceDemographics';
 import FinancialDetails from './components/sections/FinancialDetails';
 import { B2BData, B2CData } from './types/data';
 import { getAvailableColumns } from './utils/validation';
+import CustomReport from './components/CustomReport';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from './components/ui/tabs';
 
 interface DataState {
   data: B2BData[] | B2CData[] | null;
@@ -91,7 +93,7 @@ function App() {
 
         {(b2bData.data || b2cData.data) && (
           <div className="space-y-8">
-            <FileInfo 
+            <FileInfo
               b2bFileName={b2bData.fileName}
               b2cFileName={b2cData.fileName}
               b2bRecords={b2bData.data?.length}
@@ -152,6 +154,25 @@ function App() {
             </div>
           </div>
         )}
+
+        <Tabs defaultValue="default">
+          <TabsList>
+            <TabsTrigger value="default">Default View</TabsTrigger>
+            <TabsTrigger value="custom">Custom Report</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="default">
+            {/* Existing visualization components */}
+          </TabsContent>
+
+          <TabsContent value="custom">
+            <CustomReport
+              b2bData={b2bData}
+              b2cData={b2cData}
+              showUnknowns={showB2BUnknowns || showB2CUnknowns}
+            />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
